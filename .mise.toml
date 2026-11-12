@@ -1,0 +1,16 @@
+# Reproduction repository for renovatebot/renovate#47868.
+#
+# The [task_config] includes entry below is a remote git ref of THIS repository
+# (self-referential, so the repro is self-contained). Renovate's mise manager
+# ignores it: remote refs in `[task_config] includes` are not extracted, so the
+# pin is never shown on the dependency dashboard and never updated.
+#
+# Expected after the fix: a `task-include` dependency (github-tags datasource)
+# for the pinned ref, with a PR bumping ref=v1.0.0 -> ref=v1.0.1.
+[settings]
+experimental = true
+
+[task_config]
+includes = [
+  "git::https://github.com/lahabana/renovate-mise-task-config-includes-repro.git//tasks?ref=v1.0.0",
+]
