@@ -8,22 +8,34 @@ are never updated.
 
 ## What is in this repository
 
-- [`.mise.toml`](./.mise.toml) declares `[task_config] includes` with a remote
-  `git::` entry pinning **this same repository's** `tasks/` directory at tag
-  `v1.0.0` (self-referential, so the repro is fully self-contained).
-- [`tasks/`](./tasks) contains the tasks that the include serves.
-- Tag `v1.0.1` exists with newer task content, so an update is available.
+[`.mise.toml`](./.mise.toml) exercises the three ways mise can depend on
+external versions, two of which reference **this same repository's** `tasks/`
+directory (self-referential, so the repro is fully self-contained), each pinned
+at a different tag:
+
+| Dependency form | Pinned at | Latest | Released Renovate | Renovate with #47868 |
+|---|---|---|---|---|
+| `[tools]` `jq = "1.7.1"` | `1.7.1` | `1.8.1` | ✅ extracted | ✅ extracted |
+| `[tasks.remote-hello]` `file = "git::…//tasks/hello.sh?ref=v1.0.1"` | `v1.0.1` | `v1.0.2` | ✅ extracted (`task-remote-hello-file`) | ✅ extracted |
+| `[task_config]` `includes = ["git::…//tasks?ref=v1.0.0"]` | `v1.0.0` | `v1.0.2` | ❌ **not extracted (bug)** | ✅ extracted (`task-include`) |
+
+- [`tasks/`](./tasks) contains the tasks that the remote refs serve.
+- Tags `v1.0.0`, `v1.0.1` and `v1.0.2` exist, so an update is available for
+  every pinned ref.
 
 ## What Renovate should do (after the fix)
 
-With the fix from #47868, the `git::https://github.com/lahabana/renovate-mise-task-config-includes-repro.git//tasks?ref=v1.0.0`
+With the fix from #47868, the
+`git::https://github.com/lahabana/renovate-mise-task-config-includes-repro.git//tasks?ref=v1.0.0`
 entry is extracted as a `task-include` dependency (`github-tags` datasource)
-and Renovate opens a PR bumping `ref=v1.0.0` → `ref=v1.0.1`.
+and Renovate opens a PR bumping `ref=v1.0.0` → `ref=v1.0.2`.
 
 ## What Renovate does today (without the fix)
 
-The entry is ignored entirely: no dependency is extracted, nothing appears in
-the dependency dashboard, and no PR is created.
+The `[task_config] includes` entry is ignored entirely: no dependency is
+extracted, nothing appears in the dependency dashboard, and no PR is created —
+while the `jq` tool and the `tasks.<name>.file` dependency are picked up
+normally.
 
 ## Reproducing
 

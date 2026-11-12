@@ -17,6 +17,12 @@ experimental = true
 # Outdated on purpose: 1.8.1 is the latest release.
 jq = "1.7.1"
 
+# Remote task file (`tasks.<name>.file`): a second way to depend on shared
+# tasks, pinned at a different tag than the include above. Unlike
+# `[task_config] includes`, released Renovate already extracts this one.
+[tasks.remote-hello]
+file = "git::https://github.com/lahabana/renovate-mise-task-config-includes-repro.git//tasks/hello.sh?ref=v1.0.1"
+
 [task_config]
 includes = [
   "git::https://github.com/lahabana/renovate-mise-task-config-includes-repro.git//tasks?ref=v1.0.0",
