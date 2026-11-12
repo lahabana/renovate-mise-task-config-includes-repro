@@ -20,7 +20,7 @@ experimental = true
 # task-include dependency above is the bug being reproduced.
 [tools]
 # Outdated on purpose: 1.8.2 is the latest release.
-jq = "1.7.1"
+jq = "1.8.2"
 
 # Remote task file (`tasks.<name>.file`): a second way to depend on shared
 # tasks, pinned at a different tag than the include above. Unlike
