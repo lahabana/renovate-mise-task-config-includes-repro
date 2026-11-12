@@ -21,7 +21,7 @@ jq = "1.7.1"
 # tasks, pinned at a different tag than the include above. Unlike
 # `[task_config] includes`, released Renovate already extracts this one.
 [tasks.remote-hello]
-file = "git::https://github.com/lahabana/renovate-mise-task-config-includes-repro.git//tasks/hello.sh?ref=v1.0.1"
+file = "git::https://github.com/lahabana/renovate-mise-task-config-includes-repro.git//tasks/hello.sh?ref=v1.0.2"
 
 [task_config]
 includes = [
