@@ -10,6 +10,13 @@
 [settings]
 experimental = true
 
+# A regular tool dependency: Renovate picks this up on every release and shows
+# the update, proving the mise manager itself works in this repo. The missing
+# task-include dependency above is the bug being reproduced.
+[tools]
+# Outdated on purpose: 1.8.1 is the latest release.
+jq = "1.7.1"
+
 [task_config]
 includes = [
   "git::https://github.com/lahabana/renovate-mise-task-config-includes-repro.git//tasks?ref=v1.0.0",
